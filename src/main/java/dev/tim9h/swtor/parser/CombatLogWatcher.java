@@ -18,10 +18,10 @@ import dev.tim9h.swtor.parser.bean.CombatLog;
 
 public class CombatLogWatcher {
 
+	private static final Logger LOGGER = LogManager.getLogger(CombatLogWatcher.class);
+
 	private static final Pattern PATTERN = Pattern
 			.compile("^\\[(.+)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\](?: \\((.*)\\))?(?: <(.*)>)?$");
-
-	private static final Logger logger = LogManager.getLogger(CombatLogWatcher.class);
 
 	private FileAlterationMonitor monitor;
 
@@ -30,20 +30,19 @@ public class CombatLogWatcher {
 
 	private Consumer<CombatLog> consumer;
 
-	public void startWatching(Consumer<CombatLog> consumer) {
-		this.consumer = consumer;
-		logger.debug(() -> "Start combatlog watcher");
+	public void startWatching(Consumer<CombatLog> logConsumer) {
+		consumer = logConsumer;
 		listener.setParser(this::parse);
 		try {
 			var path = getCombatlogsPath();
-			logger.debug(() -> "Starting combatlog watcher");
-			FileAlterationObserver observer = new FileAlterationObserver(path.toFile());
+			LOGGER.debug(() -> "Starting combatlog watcher");
+			var observer = new FileAlterationObserver(path.toFile());
 			observer.addListener(listener);
 			monitor = new FileAlterationMonitor(100);
 			monitor.addObserver(observer);
 			startMonitor();
 		} catch (InvalidPathException e) {
-			logger.warn(() -> "Unable to start combatlog watcher: Combatlog directory not found");
+			LOGGER.warn(() -> "Unable to start combatlog watcher: Combatlog directory not found");
 		}
 	}
 
@@ -51,23 +50,23 @@ public class CombatLogWatcher {
 		try {
 			monitor.start();
 		} catch (Exception e) {
-			logger.error(() -> "Unable to start combatlog monitor");
+			LOGGER.error(() -> "Unable to start combatlog monitor");
 		}
 	}
 
 	public void stopWatching() {
-		logger.debug(() -> "Shutting down combatlog watcher");
+		LOGGER.debug(() -> "Shutting down combatlog watcher");
 		try {
 			monitor.stop();
 			listener.stop();
 		} catch (Exception e) {
-			logger.warn(() -> "Unable to stop combatlog monitor");
+			LOGGER.warn(() -> "Unable to stop combatlog monitor");
 		}
 	}
 
 	private static Path getCombatlogsPath() throws InvalidPathException {
 		return Path.of(FileSystemView.getFileSystemView().getDefaultDirectory().toString(),
-				"Star Wars - The Old Republic", "CombatLogs"); // CombatLogs
+				"Star Wars - The Old Republic", "CombatLogs");
 	}
 
 	private void parse(String combatlog) {

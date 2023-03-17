@@ -9,10 +9,10 @@ import org.apache.logging.log4j.Logger;
 
 public class Effect {
 
+	private static final Logger LOGGER = LogManager.getLogger(Effect.class);
+
 	private static final Pattern PATTERN = Pattern.compile(
 			"^([a-zA-Z- ]+) \\{(\\d+)}(?:: ([a-zA-Z ]*) \\{(\\d+)})?(?: (.*) \\{(\\d*)\\}|\\/(.*) \\{(\\d*)\\})?");
-
-	private static final Logger LOGGER = LogManager.getLogger(Effect.class);
 
 	private String event;
 

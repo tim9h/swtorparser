@@ -8,13 +8,13 @@ import org.apache.logging.log4j.Logger;
 
 public class Entity {
 
+	private static final Logger LOGGER = LogManager.getLogger(Entity.class);
+
 	private static final Pattern PATTERN_PLAYER = Pattern.compile(
 			"^(@)?(.+)#(\\d+)(?:\\/(.+) \\{(\\d+)\\}:(\\d+))?\\|\\(([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*)\\)\\|\\((\\d*)\\/(\\d*)\\)$");
 
 	private static final Pattern PATTERN_NPC = Pattern.compile(
 			"^(.*) \\{(\\d+)\\}:(\\d+)\\|\\(([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*)\\)\\|\\((\\d*)\\/(\\d*)\\)$");
-
-	private static final Logger LOGGER = LogManager.getLogger(Entity.class);
 
 	private boolean empty;
 

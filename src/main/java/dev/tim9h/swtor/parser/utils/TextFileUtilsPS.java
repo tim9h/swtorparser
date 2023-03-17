@@ -14,9 +14,9 @@ import com.profesorfalken.jpowershell.PowerShell;
 
 public class TextFileUtilsPS implements TextFileUtils {
 
-	private PowerShell ps;
+	private static final Logger LOGGER = LogManager.getLogger(TextFileUtilsPS.class);
 
-	private static Logger logger = LogManager.getLogger(TextFileUtilsPS.class);
+	private PowerShell ps;
 
 	@Override
 	public List<String> tail(File file, long linecount, Charset charset) {
@@ -33,7 +33,7 @@ public class TextFileUtilsPS implements TextFileUtils {
 	private PowerShell getPowerShell() {
 		if (ps == null) {
 			ps = PowerShell.openSession();
-			logger.debug(() -> "PowerShell session started");
+			LOGGER.debug(() -> "PowerShell session started");
 		}
 		return ps;
 	}
@@ -43,7 +43,7 @@ public class TextFileUtilsPS implements TextFileUtils {
 		if (ps != null) {
 			ps.close();
 			ps = null;
-			logger.debug(() -> "PowerShell session terminated");
+			LOGGER.debug(() -> "PowerShell session terminated");
 		}
 	}
 

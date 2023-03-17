@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 
 public class Ability {
 
+	private static final Logger LOGGER = LogManager.getLogger(Ability.class);
+
 	private static final Pattern PATTERN = Pattern
 			.compile("^(?:([a-zA-Z- '\\d\\.]+)(?: \\((.+)\\))? )?\\s?\\{(\\d+)}$");
-
-	private static final Logger LOGGER = LogManager.getLogger(Ability.class);
 
 	private String abilityName;
 
@@ -78,4 +78,5 @@ public class Ability {
 			return "Ability [ability=" + abilityName + "]";
 		}
 	}
+
 }

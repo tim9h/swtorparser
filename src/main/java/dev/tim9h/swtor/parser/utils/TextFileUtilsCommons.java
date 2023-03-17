@@ -13,12 +13,12 @@ import org.apache.logging.log4j.Logger;
 
 public class TextFileUtilsCommons implements TextFileUtils {
 
-	private static Logger logger = LogManager.getLogger(TextFileUtilsCommons.class);
+	private static final Logger LOGGER = LogManager.getLogger(TextFileUtilsCommons.class);
 
 	@Override
 	public List<String> tail(File file, long linecount, Charset charset) {
 		try (var reader = new ReversedLinesFileReader(file, charset)) {
-			List<String> list = reader.readLines((int) linecount);
+			var list = reader.readLines((int) linecount);
 			Collections.reverse(list);
 			return list;
 		} catch (IllegalArgumentException | IOException e) {
@@ -26,7 +26,7 @@ public class TextFileUtilsCommons implements TextFileUtils {
 			try (var reader = new ReversedLinesFileReader(file, charset)) {
 				return Arrays.asList(reader.readLine());
 			} catch (Exception ex) {
-				logger.warn(() -> "Unable to read line", e);
+				LOGGER.warn(() -> "Unable to read line", e);
 				return Collections.emptyList();
 			}
 		}

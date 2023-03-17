@@ -18,9 +18,9 @@ import dev.tim9h.swtor.parser.utils.TextFileUtils;
 
 class CombatlogAlterationListener extends FileAlterationListenerAdaptor {
 
-	private static final Charset CHARSET = Charset.forName("WINDOWS-1252");
+	private static final Logger LOGGER = LogManager.getLogger(CombatlogAlterationListener.class);
 
-	private static final Logger logger = LogManager.getLogger(CombatlogAlterationListener.class);
+	private static final Charset CHARSET = Charset.forName("WINDOWS-1252");
 
 	private File currentFile;
 
@@ -45,7 +45,7 @@ class CombatlogAlterationListener extends FileAlterationListenerAdaptor {
 		try {
 			handleLogChanged(file);
 		} catch (IOException e) {
-			logger.error(() -> "Unable to read combat log " + file, e);
+			LOGGER.error(() -> "Unable to read combat log " + file, e);
 		}
 	}
 
@@ -57,7 +57,7 @@ class CombatlogAlterationListener extends FileAlterationListenerAdaptor {
 			// new file (character login)
 			currentFile = file;
 			linecount = 0;
-			logger.debug(() -> "New combatlog started: " + file.toString());
+			LOGGER.debug(() -> "New combatlog started: " + file.toString());
 		}
 
 		long newlines = 0;
@@ -71,7 +71,7 @@ class CombatlogAlterationListener extends FileAlterationListenerAdaptor {
 			}
 		} catch (NoSuchFileException e) {
 			// file was deleted (e.g. by CombatLogPurger)
-			logger.debug(() -> "File " + file + " was deleted");
+			LOGGER.debug(() -> "File " + file + " was deleted");
 			return;
 		}
 
