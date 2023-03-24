@@ -60,8 +60,6 @@ public class Effect {
 	}
 
 	private void parseDisciplineEffect(Matcher matcher) {
-		// DisciplineChanged {836045448953665}: Assassin {16141163438392504574}/Darkness
-		// {2031339142381582}
 		setEvent(matcher.group(1));
 		setEventId(matcher.group(2));
 		setCombatStyle(matcher.group(3));
@@ -71,8 +69,6 @@ public class Effect {
 	}
 
 	private void parseAreaEffect(Matcher matcher) {
-		// AreaEntered {836045448953664}: Valley of the Machine Gods {833571547775765} 8
-		// Player Master {836045448953655}
 		setEvent(matcher.group(1));
 		setEventId((matcher.group(2)));
 		setArea(matcher.group(3));
@@ -82,7 +78,6 @@ public class Effect {
 	}
 
 	private void parseDefaultEffect(Matcher matcher) {
-		// Event {836045448945472}: AbilityActivate {836045448945479}
 		var g1 = matcher.group(1);
 		setEvent(g1);
 		setEventId((matcher.group(2)));
