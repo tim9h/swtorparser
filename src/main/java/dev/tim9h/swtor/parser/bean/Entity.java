@@ -14,7 +14,7 @@ public class Entity {
 			"^(@)?(.+)#(\\d+)(?:\\/(.+) \\{(\\d+)\\}:(\\d+))?\\|\\(([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*)\\)\\|\\((\\d*)\\/(\\d*)\\)$");
 
 	private static final Pattern PATTERN_NPC = Pattern.compile(
-			"^(.*) \\{(\\d+)\\}:(\\d+)\\|\\(([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*)\\)\\|\\((\\d*)\\/(\\d*)\\)$");
+			"^(?:(.+) )?\\{(\\d+)\\}:(\\d+)\\|\\(([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*),([-0-9]*\\.\\d*)\\)\\|\\((\\d*)\\/(\\d*)\\)$");
 
 	private boolean empty;
 
@@ -29,6 +29,10 @@ public class Entity {
 	private String id2;
 
 	private String companion;
+
+	private String companionId;
+
+	private String companionId2;
 
 	private float coordX;
 
@@ -53,7 +57,9 @@ public class Entity {
 				setPlayer("@".equals(matcher.group(1)));
 				setName(matcher.group(2));
 				setId(matcher.group(3));
-				setCompanion(matcher.group(4)); // 5 & 6 not mapped
+				setCompanion(matcher.group(4));
+				setCompanionId(matcher.group(5));
+				setCompanionId2(matcher.group(6));
 				setCoordX(Float.parseFloat(matcher.group(7)));
 				setCoordY(Float.parseFloat(matcher.group(8)));
 				setCoordA(Float.parseFloat(matcher.group(9)));
@@ -173,6 +179,22 @@ public class Entity {
 
 	public void setCompanion(String companion) {
 		this.companion = companion;
+	}
+
+	public String getCompanionId() {
+		return companionId;
+	}
+
+	public void setCompanionId(String companionId) {
+		this.companionId = companionId;
+	}
+
+	public String getCompanionId2() {
+		return companionId2;
+	}
+
+	public void setCompanionId2(String companionId2) {
+		this.companionId2 = companionId2;
 	}
 
 	public String getId2() {
