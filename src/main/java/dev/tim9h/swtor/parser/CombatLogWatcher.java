@@ -28,6 +28,8 @@ public class CombatLogWatcher {
 
 	private Consumer<CombatLog> consumer;
 
+	private Path combatLogsPath;
+
 	public void startWatching(Consumer<CombatLog> logConsumer) {
 		consumer = logConsumer;
 		listener.setParser(this::parse);
@@ -42,6 +44,11 @@ public class CombatLogWatcher {
 		} catch (InvalidPathException e) {
 			LOGGER.warn(() -> "Unable to start combatlog watcher: Combatlog directory not found");
 		}
+	}
+
+	public void startWatching(Consumer<CombatLog> logConsumer, Path path) {
+		this.combatLogsPath = path;
+		startWatching(logConsumer);
 	}
 
 	private void startMonitor() {
@@ -62,9 +69,11 @@ public class CombatLogWatcher {
 		}
 	}
 
-	private static Path getCombatlogsPath() throws InvalidPathException {
-		return Path.of(FileSystemView.getFileSystemView().getDefaultDirectory().toString(),
-				"Star Wars - The Old Republic", "CombatLogs");
+	private Path getCombatlogsPath() throws InvalidPathException {
+		return combatLogsPath == null
+				? Path.of(FileSystemView.getFileSystemView().getDefaultDirectory().toString(),
+						"Star Wars - The Old Republic", "CombatLogs")
+				: combatLogsPath;
 	}
 
 	private void parse(String combatlog) {

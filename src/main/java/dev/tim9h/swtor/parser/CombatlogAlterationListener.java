@@ -51,10 +51,9 @@ class CombatlogAlterationListener extends FileAlterationListenerAdaptor {
 
 	private void handleLogChanged(File file) throws IOException, IllegalArgumentException {
 		if (currentFile == null) {
-			// start parsing
 			currentFile = file;
+			LOGGER.debug(() -> "Parsing started");
 		} else if (!StringUtils.equals(currentFile.toString(), file.toString())) {
-			// new file (character login)
 			currentFile = file;
 			linecount = 0;
 			LOGGER.debug(() -> "New combatlog started: " + file.toString());
