@@ -1,8 +1,15 @@
 package dev.tim9h.swtor.parser.bean;
 
 import java.time.LocalTime;
+import java.util.regex.Pattern;
+
+import dev.tim9h.swtor.parser.utils.CombatlogParserException;
+import dev.tim9h.swtor.parser.utils.CombatlogParserException.Type;
 
 public class CombatLog {
+
+	private static final Pattern PATTERN = Pattern
+			.compile("^\\[(.+)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\](?: \\((.*)\\))?(?: <(.*)>)?$");
 
 	private LocalTime timestamp;
 
@@ -18,16 +25,19 @@ public class CombatLog {
 
 	private String version;
 
-	public CombatLog(String timestamp, String source, String target, String ability, String effect, String misc,
-			String version) {
-		super();
-		setTimestamp(timestamp);
-		setSource(source);
-		setTarget(target);
-		setAbility(ability);
-		setEffect(effect);
-		setMisc(misc);
-		setVersion(version);
+	public CombatLog(String log) throws CombatlogParserException {
+		var matcher = PATTERN.matcher(log);
+		if (matcher.find() && matcher.groupCount() >= 7) {
+			setTimestamp(matcher.group(1));
+			setSource(matcher.group(2));
+			setTarget(matcher.group(3));
+			setAbility(matcher.group(4));
+			setEffect(matcher.group(5));
+			setMisc(matcher.group(6));
+			setVersion(matcher.group(7));
+		} else {
+			throw new CombatlogParserException(Type.UNPARSABLE_COMBATLOG);
+		}
 	}
 
 	public LocalTime getTimestamp() {

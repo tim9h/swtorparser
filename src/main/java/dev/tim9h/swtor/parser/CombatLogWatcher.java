@@ -3,7 +3,6 @@ package dev.tim9h.swtor.parser;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.function.Consumer;
-import java.util.regex.Pattern;
 
 import javax.swing.filechooser.FileSystemView;
 
@@ -15,13 +14,12 @@ import org.apache.logging.log4j.Logger;
 import com.google.inject.Inject;
 
 import dev.tim9h.swtor.parser.bean.CombatLog;
+import dev.tim9h.swtor.parser.utils.CombatlogParserException;
+import dev.tim9h.swtor.parser.utils.CombatlogParserException.Type;
 
 public class CombatLogWatcher {
 
 	private static final Logger LOGGER = LogManager.getLogger(CombatLogWatcher.class);
-
-	private static final Pattern PATTERN = Pattern
-			.compile("^\\[(.+)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\](?: \\((.*)\\))?(?: <(.*)>)?$");
 
 	private FileAlterationMonitor monitor;
 
@@ -70,13 +68,15 @@ public class CombatLogWatcher {
 	}
 
 	private void parse(String combatlog) {
-		var matcher = PATTERN.matcher(combatlog);
-		if (matcher.find() && matcher.groupCount() >= 7) {
-			var log = new CombatLog(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4),
-					matcher.group(5), matcher.group(6), matcher.group(7));
+		try {
+			var log = new CombatLog(combatlog);
 			consumer.accept(log);
-		} else {
-			listener.onParseFail();
+		} catch (CombatlogParserException e) {
+			if (e.getType() == Type.UNPARSABLE_COMBATLOG) {
+				listener.onParseFail();
+			} else {
+				LOGGER.warn(() -> String.format("Exception while parsing combatlog: %n%s", combatlog));
+			}
 		}
 	}
 
