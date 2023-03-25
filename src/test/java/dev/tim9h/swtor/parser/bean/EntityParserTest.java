@@ -27,18 +27,31 @@ class EntityParserTest {
 
 	@Test
 	void parseNpcEntity() {
-		var entity = new Entity(
+		var entity0 = new Entity(
 				"Hyde {4626684800139264}:113850000006986|(-4565.34,-4549.61,694.02,105.17)|(10440/10440)");
-		assertFalse(entity.isPlayer());
-		assertEquals("Hyde", entity.getName());
-		assertEquals("4626684800139264", entity.getId());
-		assertEquals("113850000006986", entity.getId2());
-		assertEquals(-4565.34, entity.getCoordX(), FLOAT_DELTA);
-		assertEquals(-4549.61, entity.getCoordY(), FLOAT_DELTA);
-		assertEquals(694.02, entity.getCoordA(), FLOAT_DELTA);
-		assertEquals(105.17, entity.getCoordB(), FLOAT_DELTA);
-		assertEquals(10440, entity.getValue0());
-		assertEquals(10440, entity.getValue1());
+		assertFalse(entity0.isPlayer());
+		assertEquals("Hyde", entity0.getName());
+		assertEquals("4626684800139264", entity0.getId());
+		assertEquals("113850000006986", entity0.getId2());
+		assertEquals(-4565.34, entity0.getCoordX(), FLOAT_DELTA);
+		assertEquals(-4549.61, entity0.getCoordY(), FLOAT_DELTA);
+		assertEquals(694.02, entity0.getCoordA(), FLOAT_DELTA);
+		assertEquals(105.17, entity0.getCoordB(), FLOAT_DELTA);
+		assertEquals(10440, entity0.getValue0());
+		assertEquals(10440, entity0.getValue1());
+
+		var entity1 = new Entity(
+				" Hyde {4626684800139264}:113850000006986|(-4565.34,-4549.61,694.02,105.17)|(10440/10440)");
+		assertFalse(entity0.isPlayer());
+		assertEquals("Hyde", entity1.getName());
+		assertEquals("4626684800139264", entity1.getId());
+		assertEquals("113850000006986", entity1.getId2());
+		assertEquals(-4565.34, entity1.getCoordX(), FLOAT_DELTA);
+		assertEquals(-4549.61, entity1.getCoordY(), FLOAT_DELTA);
+		assertEquals(694.02, entity1.getCoordA(), FLOAT_DELTA);
+		assertEquals(105.17, entity1.getCoordB(), FLOAT_DELTA);
+		assertEquals(10440, entity1.getValue0());
+		assertEquals(10440, entity1.getValue1());
 	}
 
 	@Test
@@ -61,17 +74,29 @@ class EntityParserTest {
 
 	@Test
 	void parseUnknownEntity() {
-		var entity = new Entity("{3313047577821184}:121085000751202|(0.02,-786.91,9.02,-0.00)|(1209062/1209062)");
-		assertFalse(entity.isPlayer());
-		assertNull(entity.getName());
-		assertEquals("3313047577821184", entity.getId());
-		assertEquals("121085000751202", entity.getId2());
-		assertEquals(0.02, entity.getCoordX(), FLOAT_DELTA);
-		assertEquals(-786.91, entity.getCoordY(), FLOAT_DELTA);
-		assertEquals(9.02, entity.getCoordA(), FLOAT_DELTA);
-		assertEquals(-0.00, entity.getCoordB(), FLOAT_DELTA);
-		assertEquals(1209062, entity.getValue0());
-		assertEquals(1209062, entity.getValue1());
+		var entity0 = new Entity("{3313047577821184}:121085000751202|(0.02,-786.91,9.02,-0.00)|(1209062/1209062)");
+		assertFalse(entity0.isPlayer());
+		assertNull(entity0.getName());
+		assertEquals("3313047577821184", entity0.getId());
+		assertEquals("121085000751202", entity0.getId2());
+		assertEquals(0.02, entity0.getCoordX(), FLOAT_DELTA);
+		assertEquals(-786.91, entity0.getCoordY(), FLOAT_DELTA);
+		assertEquals(9.02, entity0.getCoordA(), FLOAT_DELTA);
+		assertEquals(-0.00, entity0.getCoordB(), FLOAT_DELTA);
+		assertEquals(1209062, entity0.getValue0());
+		assertEquals(1209062, entity0.getValue1());
+
+		var entity1 = new Entity(" {4489245846667264}:149484000365908|(259.82,44.70,-232.07,0.00)|(281542/281542)");
+		assertFalse(entity1.isPlayer());
+		assertNull(entity1.getName());
+		assertEquals("4489245846667264", entity1.getId());
+		assertEquals("149484000365908", entity1.getId2());
+		assertEquals(259.82, entity1.getCoordX(), FLOAT_DELTA);
+		assertEquals(44.70, entity1.getCoordY(), FLOAT_DELTA);
+		assertEquals(-232.07, entity1.getCoordA(), FLOAT_DELTA);
+		assertEquals(0.00, entity1.getCoordB(), FLOAT_DELTA);
+		assertEquals(281542, entity1.getValue0());
+		assertEquals(281542, entity1.getValue1());
 	}
 
 	@Test
