@@ -6,8 +6,8 @@
 	<groupId>dev.tim9h</groupId>
 	<artifactId>swtor.parser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Parser</name>
-	<description>a swtor combatlog parser</description>
+	<name>YATORP</name>
+	<description>Yet another ToR parser</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
