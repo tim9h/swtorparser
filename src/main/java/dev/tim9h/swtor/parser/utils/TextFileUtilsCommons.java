@@ -17,13 +17,13 @@ public class TextFileUtilsCommons implements TextFileUtils {
 
 	@Override
 	public List<String> tail(File file, long linecount, Charset charset) {
-		try (var reader = new ReversedLinesFileReader(file, charset)) {
+		try (var reader = ReversedLinesFileReader.builder().setCharset(charset).setFile(file).get()) {
 			var list = reader.readLines((int) linecount);
 			Collections.reverse(list);
 			return list;
 		} catch (IllegalArgumentException | IOException e) {
 			// new combat file started
-			try (var reader = new ReversedLinesFileReader(file, charset)) {
+			try (var reader = ReversedLinesFileReader.builder().setCharset(charset).setFile(file).get()) {
 				return Arrays.asList(reader.readLine());
 			} catch (Exception ex) {
 				LOGGER.warn(() -> "Unable to read line", e);

@@ -11,7 +11,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.Comparator;
 
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.awaitility.Awaitility;
@@ -54,6 +54,8 @@ class CombatLogWatcherTest {
 
 	@Test
 	void testDirectoryWatcher() throws InterruptedException, IOException, URISyntaxException {
+		var rng = RandomSource.L64_X256_MIX.create();
+
 		numberOfParsedLogs = 0;
 		watcher.startWatching(log -> {
 			numberOfParsedLogs++;
@@ -69,7 +71,7 @@ class CombatLogWatcherTest {
 		for (var line : lines) {
 			Files.write(logfile, (line + "\r\n").getBytes(), StandardOpenOption.APPEND);
 			LOGGER.debug(() -> "Log written: " + line);
-			Thread.sleep(RandomUtils.nextLong(1, maxDelay));
+			Thread.sleep(rng.nextLong(1, maxDelay));
 		}
 
 		Awaitility.await().timeout(Duration.ofMillis(maxDelay * lines.size()))
